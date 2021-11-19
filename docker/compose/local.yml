@@ -22,6 +22,8 @@ services:
     environment:
       - DJANGO_SECRET_KEY=local
       - DJANGO_CONFIGURATION=Local
+      - NAVER_CLIENT_ID=${NAVER_CLIENT_ID}
+      - NAVER_CLIENT_SECRET=${NAVER_CLIENT_SECRET}
     build:
       context: ../../
       dockerfile: docker/images/local/Django.Dockerfile

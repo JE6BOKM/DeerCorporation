@@ -14,13 +14,11 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 FROM python:3.9
 ENV PYTHONUNBUFFERED 1
 
+RUN apt-get update && \
+    apt-get install -y binutils libproj-dev gdal-bin unzip
+
+
 COPY --from=requirements-stage /tmp/requirements.txt /requirements.txt
-
-
-RUN apt-get update && apt-get install -y binutils libproj-dev gdal-bin
-
-ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
-ENV C_INCLUDE_PATH=/usr/include/gdal
 
 
 RUN pip install --no-cache-dir --upgrade -r /requirements.txt
