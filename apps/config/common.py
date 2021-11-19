@@ -2,14 +2,15 @@ import os
 from datetime import timedelta
 from distutils.util import strtobool
 from os.path import join
+from pathlib import Path
 
 import dj_database_url
 from configurations import Configuration
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 class Common(Configuration):
+    BASE_DIR = Path(__file__).parent.parent
+    ROOT_DIR = BASE_DIR.parent
 
     INSTALLED_APPS = (
         "django.contrib.admin",
