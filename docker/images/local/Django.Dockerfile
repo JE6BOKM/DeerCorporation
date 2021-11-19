@@ -17,6 +17,12 @@ ENV PYTHONUNBUFFERED 1
 COPY --from=requirements-stage /tmp/requirements.txt /requirements.txt
 
 
+RUN apt-get update && apt-get install -y binutils libproj-dev gdal-bin
+
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
+
+
 RUN pip install --no-cache-dir --upgrade -r /requirements.txt
 
 # Adds our application code to the image

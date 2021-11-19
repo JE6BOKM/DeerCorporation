@@ -18,6 +18,7 @@ class Common(Configuration):
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "django.contrib.gis",
         # Third party apps
         "rest_framework",  # utilities for rest apis
         "rest_framework.authtoken",  # token authentication
@@ -34,6 +35,7 @@ class Common(Configuration):
         # Your apps
         "apps.users",
         "apps.core",
+        "apps.deercorporation",
     )
 
     # django-alauth
@@ -90,11 +92,13 @@ class Common(Configuration):
     DATABASES = {
         "default": dj_database_url.config(
             default=os.getenv(
-                "DATABASE_URL", "postgres://localuser:password@postgres:5432/crud"
+                "DATABASE_URL",
+                "postgres://localuser:password@postgres:5432/crud",
             ),
             conn_max_age=int(os.getenv("POSTGRES_CONN_MAX_AGE", 600)),
         )
     }
+    DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
 
     # General
     APPEND_SLASH = False
