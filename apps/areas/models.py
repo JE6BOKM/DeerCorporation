@@ -24,6 +24,10 @@ class ParkingZone(models.Model):
     center = models.PointField()
     radius = models.IntegerField()
 
+    @property
+    def parkingzone(self):
+        return self.center.buffer(self.radius)
+
 
 class ForbiddenArea(models.Model):
     id = models.IntegerField(primary_key=True)
