@@ -14,12 +14,4 @@ class RideHistory(models.Model):
 class Deer(models.Model):
 
     name = models.CharField(max_length=20, primary_key=True)
-    area = models.ForeignKey("Area", on_delete=models.PROTECT)
-
-
-class Area(models.Model):
-
-    area_id = models.CharField(max_length=30, primary_key=True)
-    area_boundary = models.PolygonField()
-    area_center = models.PointField()
-    area_coords = models.MultiPointField()
+    area = models.ForeignKey("areas.District", on_delete=models.PROTECT)

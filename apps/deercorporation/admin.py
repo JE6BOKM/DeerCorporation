@@ -1,11 +1,6 @@
 from django.contrib import admin
 
-from apps.deercorporation.models import Area, Deer, RideHistory
-
-
-@admin.register(Area)
-class AreaAdmin(admin.ModelAdmin):
-    """"""
+from apps.deercorporation.models import Deer, RideHistory
 
 
 @admin.register(Deer)

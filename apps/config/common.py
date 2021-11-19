@@ -36,6 +36,8 @@ class Common(Configuration):
         "apps.users",
         "apps.core",
         "apps.deercorporation",
+        "apps.areas",
+        "apps.fees",
     )
 
     # django-alauth
