@@ -74,9 +74,7 @@ class RideHistroySerializer(ModelSerializer):
 
     def get_in_parkingzone_discount(self, obj):
         zones = ParkingZone.objects.all()
-        zone = [
-            zone for zone in zones if zone.parkingzone.contains(obj.end_point)
-        ]
+        zone = [zone for zone in zones if zone.parkingzone.contains(obj.end_point)]
         if len(zone) == 1:
             discount_rate = ParkingZoneDiscount.objects.get(
                 parkingzone=zone[0]
@@ -87,57 +85,6 @@ class RideHistroySerializer(ModelSerializer):
 
     def get_in_forbidden_area(self, obj):
         zones = ForbiddenArea.objects.filter(contains=obj.end_point)
-        if len(zones) == 1:
-            return True
-        else:
-            return False
-
-    def is_continuous_use(self, obj):
-        last_use_end_at = (
-            RideHistory.objects.filter(user=obj.user)
-            .order_by("-use_start_at")
-            .first()
-            .use_end_at
-        )
-        if ceil((last_use_end_at - obj.use_start_at).seconds / 60) < 30:
-            return True
-        return False
-
-    def validate(self, attrs):
-        start_at = attrs.get("use_start_at")
-        end_at = attrs.get("use_end_at")
-        end_lng = attrs.get("use_end_lng")
-        end_lat = attrs.get("use_end_lat")
-        if start_at >= end_at:
-            raise ValidationError("End time cannot be less than start time.")
-        if not 124 <= end_lng <= 132:
-            raise ValidationError(
-                "Longitude cannot be smaller than 124 and bigger than 132."
-            )
-        if not 33 <= end_lat <= 43:
-            raise ValidationError(
-                "Latitude cannot be smaller than 33 and bigger than 43."
-            )
-        return super().validate(attrs)
-
-    def get_in_district(self, obj):
-        return obj.use_deer.area.boundary.contains(obj.end_point)
-
-    def get_in_parkingzone_discount(self, obj):
-        zones = ParkingZone.objects.all()
-        zone = [
-            zone for zone in zones if zone.parkingzone.contains(obj.end_point)
-        ]
-        if len(zone) == 1:
-            discount_rate = ParkingZoneDiscount.objects.get(
-                parkingzone=zone[0]
-            ).discount_rate
-            return discount_rate
-        else:
-            return 0
-
-    def get_in_forbidden_area(self, obj):
-        zones = ForbiddenArea.objects.filter(boundary__contains=obj.end_point)
         if len(zones) == 1:
             return True
         else:

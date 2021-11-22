@@ -8,10 +8,10 @@ class DistrictAdmin(admin.ModelAdmin):
     pass
 
     list_display = (
-        "district_id",
-        "district_boundary",
-        "district_center",
-        "district_coords",
+        "sig_cd",
+        "name",
+        "boundary",
+        "center",
     )
 
 
@@ -20,9 +20,9 @@ class ParkingZoneAdmin(admin.ModelAdmin):
     pass
 
     list_display = (
-        "parkingzone_id",
-        "parkingzone_center",
-        "parkingzone_radius",
+        "id",
+        "center",
+        "radius",
     )
 
 
@@ -32,7 +32,7 @@ class ForbiddenAreaAdmin(admin.ModelAdmin):
     """"""
 
     list_display = (
-        "forbidden_area_id",
-        "forbidden_area_boundary",
-        "forbidden_area_coords",
+        "id",
+        "boundary",
+        "coords",
     )

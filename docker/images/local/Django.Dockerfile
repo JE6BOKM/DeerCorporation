@@ -16,12 +16,6 @@ ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
     apt-get install -y binutils libproj-dev gdal-bin unzip
-<<<<<<< HEAD
-=======
-
-COPY --from=requirements-stage /tmp/requirements.txt /requirements.txt
->>>>>>> 14486bc (merge feature/fees)
-
 
 COPY --from=requirements-stage /tmp/requirements.txt /requirements.txt
 
