@@ -50,8 +50,6 @@ class RideHistroySerializer(ModelSerializer):
             "over_district_fee",
             "forbidden_penalty",
             "total_fee",
-<<<<<<< HEAD
-=======
         )
 
     def validate(self, attrs):
@@ -72,11 +70,13 @@ class RideHistroySerializer(ModelSerializer):
         return super().validate(attrs)
 
     def get_in_district(self, obj):
-        return obj.use_deer.area.district_boundary.contains(obj.end_point)
+        return obj.use_deer.area.boundary.contains(obj.end_point)
 
     def get_in_parkingzone_discount(self, obj):
         zones = ParkingZone.objects.all()
-        zone = [zone for zone in zones if zone.parkingzone.contains(obj.end_point)]
+        zone = [
+            zone for zone in zones if zone.parkingzone.contains(obj.end_point)
+        ]
         if len(zone) == 1:
             discount_rate = ParkingZoneDiscount.objects.get(
                 parkingzone=zone[0]
@@ -86,10 +86,7 @@ class RideHistroySerializer(ModelSerializer):
             return 0
 
     def get_in_forbidden_area(self, obj):
-        zones = ForbiddenArea.objects.filter(
-            forbidden_area_boundary__contains=obj.end_point
->>>>>>> 8aa6031 (FEAT: calculate fee draft)
-        )
+        zones = ForbiddenArea.objects.filter(contains=obj.end_point)
         if len(zones) == 1:
             return True
         else:
@@ -128,7 +125,9 @@ class RideHistroySerializer(ModelSerializer):
 
     def get_in_parkingzone_discount(self, obj):
         zones = ParkingZone.objects.all()
-        zone = [zone for zone in zones if zone.parkingzone.contains(obj.end_point)]
+        zone = [
+            zone for zone in zones if zone.parkingzone.contains(obj.end_point)
+        ]
         if len(zone) == 1:
             discount_rate = ParkingZoneDiscount.objects.get(
                 parkingzone=zone[0]
