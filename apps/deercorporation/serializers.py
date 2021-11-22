@@ -70,11 +70,11 @@ class RideHistroySerializer(ModelSerializer):
         return super().validate(attrs)
 
     def get_in_district(self, obj):
-        return obj.use_deer.area.boundary.contains(obj.end_point)
+        return obj.use_deer.area.boundary.intersects(obj.end_point)
 
     def get_in_parkingzone_discount(self, obj):
         zones = ParkingZone.objects.all()
-        zone = [zone for zone in zones if zone.parkingzone.contains(obj.end_point)]
+        zone = [zone for zone in zones if zone.parkingzone.intersects(obj.end_point)]
         if len(zone) == 1:
             discount_rate = ParkingZoneDiscount.objects.get(
                 parkingzone=zone[0]
@@ -84,7 +84,7 @@ class RideHistroySerializer(ModelSerializer):
             return 0
 
     def get_in_forbidden_area(self, obj):
-        zones = ForbiddenArea.objects.filter(contains=obj.end_point)
+        zones = ForbiddenArea.objects.filter(boundary__intersects=obj.end_point)
         if len(zones) == 1:
             return True
         else:
